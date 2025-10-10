@@ -87,17 +87,22 @@ public class MainActivity extends AppCompatActivity implements CityDialogFragmen
            }
         });
 
+        // Long click on an item to delete it
+
         cityListView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
             public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
-                City city = cityArrayAdapter.getItem(position);
-                DocumentReference docRef = citiesRef.document(city.getName());
-                docRef.delete();
-                cityArrayList.remove(city);
-                cityArrayAdapter.notifyDataSetChanged();
-                return true;
+                City city = cityArrayAdapter.getItem(position); // Get the item at its position in the list
+                assert city != null; // Make sure city is not null
+                DocumentReference docRef = citiesRef.document(city.getName()); // Reference the item in the firebase
+                docRef.delete(); // Delete it from firebase
+                cityArrayList.remove(city); // Remove it from the list
+                cityArrayAdapter.notifyDataSetChanged(); // Refresh the list
+                return false; // Return false
             }
         });
+
+
 
 
     }
